@@ -1,24 +1,23 @@
-import logo from './logo.svg';
+import React,{ useState } from 'react';
 import './App.css';
+import AddItem from './Components/AddItem';
+import ItemList from './Components/ItemList';
 
 function App() {
+   const[itemList,setItemList] =  useState([])
+  const addItemHandler=(orderId,price,dish,table)=>{
+      setItemList(prevState=>[{orderId:orderId,price:price,dish:dish,table:table},...prevState])
+  }
+  const deleteItemHandler = orderId => {
+    setItemList(prevItems => 
+      prevItems.filter(item => item.orderId !== orderId));
+    }
+     
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    < >
+      <AddItem onAddItems={addItemHandler}/>
+      <ItemList items={itemList} onDelete={deleteItemHandler} />
+    </>
   );
 }
 
